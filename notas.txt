@@ -1,0 +1,30 @@
+Docker:
+
+Para crear un contenedor de Docker con una db PostgreSQL:
+
+    docker run --name some-postgres -e POSTGRES_USER=mauxx -e POSTGRES_PASSWORD=password -p 5432:5432 -d postgres
+
+    parar un contenedor:    docker stop name
+    borrar un contenedor:   docker rm name
+    ver contenedores:       docker ps
+
+    ejecutar un contenedor: docker exec -it name bash       //-it es interactivo, bash para que abra uno
+    // el prompt de la consola cambia y muestra el ID del contenedor
+
+Gorm:
+
+Para instalar gorm buscar en la doc los pasos, instalar gorm y el driver para la db correspondiente:
+
+    go get -u gorm.io/gorm
+    go get -u gorm.io/driver/postgres
+
+PostgreSQL:
+
+    para acceder:       psql -U user --password         //enter y pide el password
+    mostrar DBs:        \la
+    crear DB:           CREATE DATABASE name;       //esto es SQL
+    conectar a una DB:  \c name         //pide el password
+    mostrar tablas o relaciones:    \d o \dt
+    mostrar la esctructura de una tabla:    \d table_name
+    eliminar table:     DROP TABLE table_name;      //esto es SQL
+
