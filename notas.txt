@@ -21,7 +21,7 @@ Para instalar gorm buscar en la doc los pasos, instalar gorm y el driver para la
 PostgreSQL:
 
     para acceder:       psql -U user --password         //enter y pide el password
-    mostrar DBs:        \la
+    mostrar DBs:        \l
     crear DB:           CREATE DATABASE name;       //esto es SQL
     conectar a una DB:  \c name         //pide el password
     mostrar tablas o relaciones:    \d o \dt
