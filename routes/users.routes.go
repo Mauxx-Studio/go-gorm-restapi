@@ -6,6 +6,7 @@ import (
 
 	"github.com/Mauxx-Studio/go-gorm-restapi/db"
 	"github.com/Mauxx-Studio/go-gorm-restapi/models"
+	"github.com/gorilla/mux"
 )
 
 func GetUsersHandler(w http.ResponseWriter, r *http.Request) {
@@ -15,7 +16,19 @@ func GetUsersHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetUserHandler(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Get User"))
+	var user models.User
+	params := mux.Vars(r)
+
+	db.DB.First(&user, params["id"])
+
+	if user.ID == 0 {
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte("User not found"))
+		return
+	}
+	db.DB.Model(&user).Association("Tasks").Find(&user.Tasks)
+
+	json.NewEncoder(w).Encode(&user)
 }
 
 func PostUserHandler(w http.ResponseWriter, r *http.Request) {
@@ -34,5 +47,16 @@ func PostUserHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteUserHandler(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Delete"))
+	var user models.User
+	params := mux.Vars(r)
+
+	db.DB.First(&user, params["id"])
+	if user.ID == 0 {
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte("User not found"))
+		return
+	}
+
+	db.DB.Unscoped().Delete(&user)
+	w.WriteHeader(http.StatusOK)
 }
